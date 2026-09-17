@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+password_manager.db
+.env
+instance/
+.pytest_cache/

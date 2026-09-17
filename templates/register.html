@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="card form-card">
+    <h1>Create account</h1>
+    <p class="muted">Create account. Minimum 12 characters.</p>
+    <form method="post">
+        {{ form.hidden_tag() }}
+
+        <label>{{ form.username.label }}</label>
+        {{ form.username(autocomplete="username") }}
+        {% for error in form.username.errors %}<small class="error">{{ error }}</small>{% endfor %}
+
+        <label>{{ form.password.label }}</label>
+        {{ form.password(autocomplete="new-password") }}
+        {% for error in form.password.errors %}<small class="error">{{ error }}</small>{% endfor %}
+
+        <label>{{ form.confirm_password.label }}</label>
+        {{ form.confirm_password(autocomplete="new-password") }}
+        {% for error in form.confirm_password.errors %}<small class="error">{{ error }}</small>{% endfor %}
+
+        {{ form.submit(class_="button") }}
+    </form>
+</div>
+{% endblock %}

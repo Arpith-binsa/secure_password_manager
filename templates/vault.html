@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}My Vault{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <h1>My Vault</h1>
+        <p class="muted">Welcome, {{ user.username }}. Password values remain encrypted in the database.</p>
+    </div>
+    <a class="button" href="{{ url_for('new_credential') }}">+ Add credential</a>
+</div>
+
+{% if entries %}
+<div class="grid">
+    {% for entry in entries %}
+    <article class="card entry">
+        <h2>{{ entry.site }}</h2>
+        <p><strong>Username:</strong> {{ entry.login_username }}</p>
+        <p class="muted">Updated: {{ entry.updated_at.strftime("%Y-%m-%d %H:%M") }}</p>
+        {% if entry.notes %}
+            <p>{{ entry.notes }}</p>
+        {% endif %}
+        <div class="actions">
+            <a class="button small" href="{{ url_for('view_credential', credential_id=entry.id) }}">View</a>
+            <a class="button small secondary" href="{{ url_for('edit_credential', credential_id=entry.id) }}">Edit</a>
+            <form method="post" action="{{ url_for('delete_credential', credential_id=entry.id) }}" class="inline"
+                  onsubmit="return confirm('Delete this credential?');">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="button small danger" type="submit">Delete</button>
+            </form>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card">
+    <h2>Your vault is empty</h2>
+    <p>Add your first test credential to experience encrypted storage.</p>
+    <a class="button" href="{{ url_for('new_credential') }}">Add credential</a>
+</div>
+{% endif %}
+{% endblock %}
